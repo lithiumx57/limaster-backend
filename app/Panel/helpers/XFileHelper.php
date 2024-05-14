@@ -203,7 +203,7 @@ class XFileHelper
   public static function uploadBase64($dirPath, $data): string
   {
     $dirPath = XDashboard::getConfigurator()->getUploadPrefix() . $dirPath;
-    XFileHelper::mkdirs($dirPath);
+    XFileHelper::mkdirs(public_path($dirPath));
     $extension = explode('/', mime_content_type($data))[1];
     $filePath = $dirPath . "/" . time() . rand(0, 999999) . "." . $extension;
     file_put_contents(public_path($filePath), ImageHelper::base64Decode($data));

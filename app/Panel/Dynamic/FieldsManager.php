@@ -70,7 +70,10 @@ class FieldsManager
       if (isInArray($fillAbles, $name)) {
         $value = getXRequest($name);
         self::$records[$name] = $value;
-      } else continue;
+      } else {
+        continue;
+      }
+
 
 
       self::initBoolField($element, $value);
@@ -90,6 +93,7 @@ class FieldsManager
   private static function initBoolField(Element $element, $value): void
   {
     if (!($element instanceof XBool)) return;
+
     $v = $value == "1";
     if (isPatchMethod()) {
       if ($value == null) {

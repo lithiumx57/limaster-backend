@@ -2,7 +2,14 @@
 $unique = rand(0, 999999);
 ?>
 <div {!! $additionalData !!} class="form-group {{$view->responsive }}" style="margin-right: 5px">
+
+  <input type="hidden"
+         name="{{$name}}"
+         value="0"
+  >
+
   <div class="icheck-material-success p_parent {{$view->parentClass}} @if(!strpos(" ".$view->parentClass,"col-")) li-form @endif">
+
     <input
       @if(old($name,$view->default)) checked @endif
     type="checkbox"

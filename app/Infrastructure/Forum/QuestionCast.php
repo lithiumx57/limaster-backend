@@ -46,7 +46,7 @@ class QuestionCast
       "id" => $forum->id,
       "slug" => $forum->slug,
       "title" => $forum->title,
-      "createdAt" => $forum->created_at,
+      "createdAt" => getAgoJalali($forum->created_at),
       "viewsCount" => $forum->views_count,
       "answerCount" => $forum->lines()->count(),
       "user" => UserCast::cast($forum->user),

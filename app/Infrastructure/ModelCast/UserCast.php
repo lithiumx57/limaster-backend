@@ -6,12 +6,27 @@ use App\Models\User;
 
 class UserCast
 {
-  public static function cast(User $user):array
+  public static function cast(User $user): array
   {
-    return[
+    return [
       "name" => $user->name,
-      "bio"=>"",
-      "avatar"=>"",
+      "bio" => "",
+      "avatar" => $user->getAvatar(),
     ];
+  }
+
+  public static function castCollection($users): array
+  {
+    $records = [];
+    foreach ($users as $user) {
+      $records[] = [
+        "id" => $user->id,
+        "name" => $user->name,
+        "bio" => "asd",
+        "avatar" => $user->getAvatar(),
+        "date" => getAgoJalali($user->created_at),
+      ];
+    }
+    return $records;
   }
 }

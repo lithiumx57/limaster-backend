@@ -29,7 +29,8 @@ class AppServiceProvider extends ServiceProvider
     });
 
     VerifyCsrfToken::except([
-      "/ckUploader"
+      "/ckUploader",
+      'livewire/*',
     ]);
 
     Paginator::useBootstrap();

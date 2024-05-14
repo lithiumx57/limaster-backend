@@ -80,7 +80,7 @@ class ArticleCast
   private static function castArticlesForAside($except): array
   {
     $records = [];
-    $articles = Article::where("approved", true)->where("id","!=",$except)->latest()->limit(24)->get();
+    $articles = Article::where("approved", true)->where("id", "!=", $except)->latest()->limit(24)->get();
     foreach ($articles as $article) {
       $records[] = [
         "id" => $article->id,
@@ -102,6 +102,7 @@ class ArticleCast
     $articles = Article::latest()->limit(10)->get();
     return self::castCollection($articles);
   }
+
 
   public static function castWithPaginate($articlesPaginator): array
   {

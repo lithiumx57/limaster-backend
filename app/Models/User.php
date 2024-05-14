@@ -2,18 +2,19 @@
 
 namespace App\Models;
 
+use App\Models\ProjectManagement\Project;
 use App\Panel\Models\Role;
 use App\Panel\Models\XUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 
 /**
  * @property $id
  * @property $name
- * @property $username
- * @property $phone
+ * @property $token
  * @property $email
  * @property Collection<Role> $roles
  * @property $password
@@ -88,4 +89,11 @@ class User extends XUser
     return true;
   }
 
+
+  public function projects():HasMany
+  {
+    return $this->hasMany(Project::class);
+  }
+
 }
+

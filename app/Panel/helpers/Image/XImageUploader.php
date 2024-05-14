@@ -134,6 +134,8 @@ class XImageUploader
   {
     $filePath = XFileHelper::uploadBase64($dirPath, $base64Image);
     $path = public_path($filePath);
+
+
     file_put_contents($path, ImageHelper::base64Decode($base64Image));
     list($width, $height) = getimagesize($path);
 

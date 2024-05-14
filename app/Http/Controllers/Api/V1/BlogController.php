@@ -6,8 +6,11 @@ use App\Helpers\Cast\HeadCast;
 use App\Http\Controllers\Controller;
 use App\Infrastructure\Articles\AddArticle;
 use App\Infrastructure\Articles\ArticleCast;
+use App\Infrastructure\Articles\ArticleSearch;
 use App\Infrastructure\ModelCast\CategoriesCast;
+use App\Infrastructure\ModelCast\UserCast;
 use App\Models\Article;
+use App\Models\User;
 use App\Panel\Models\Tag;
 use Exception;
 
@@ -26,14 +29,17 @@ class BlogController extends Controller
   public function all()
   {
     $page = request()->input("page");
-    if ($page == null) {
-      $page = 1;
-    }
-
+    if ($page == null) $page = 1;
     setPage($page);
+
+    $users = Article::pluck("user_id")->toArray();
+    $users = array_unique($users);
+    $authors=UserCast::castCollection(User::whereIn("id",$users)->get());
+
     return [
       "articles" => ArticleCast::castWithPaginate(Article::getQuery()->latest()->paginate(Article::perPage())),
       "categories" => CategoriesCast::castAll(Article::class),
+      "authors" => $authors,
       "tags" => Tag::castPopular(Article::class, 40),
       "head" => HeadCast::castPage("blog")
     ];
@@ -51,9 +57,14 @@ class BlogController extends Controller
   {
     AddArticle::add();
     return [
-      "success"=>true
+      "success" => true
     ];
   }
 
+
+  public function search()
+  {
+    return ArticleSearch::search();
+  }
 
 }

@@ -7,6 +7,8 @@ $configs = [
     "/cdn/" => "/",
   ],
   "reserveSizes" => [
+
+    //
     500,
     0,
     54,

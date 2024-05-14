@@ -5,8 +5,6 @@ namespace App\Infrastructure\Articles;
 use App\Helpers\AddHashtagToModel;
 use App\Models\Article;
 use App\Panel\helpers\Image\XImageUploader;
-use App\Panel\helpers\ImageHelper;
-use App\Panel\Models\Tag;
 use Exception;
 use Illuminate\Support\Carbon;
 
@@ -49,11 +47,11 @@ class AddArticle
       "slug" => $title,
     ]);
 
-    $tagRecords=[];
+    $tagRecords = [];
 
 
     foreach ($tags as $tag) {
-      $tagRecords[]=$tag["text"];
+      $tagRecords[] = str_replace(" ", "_", $tag["text"]);
     }
 
     AddHashtagToModel::add($article, $tagRecords);

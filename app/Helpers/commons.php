@@ -50,3 +50,15 @@ function getDefaultAvatar():string
 {
   return asset("app/avatar.png");
 }
+
+function getDefaultBanner():string
+{
+  return asset("app/avatar.png");
+}
+
+
+function escapeHtml($data): string
+{
+  if ($data == null) return "";
+  return preg_replace("/<[^>]*>/", "", $data);
+}

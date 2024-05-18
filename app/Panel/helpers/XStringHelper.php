@@ -11,8 +11,14 @@ class XStringHelper
 
   public static function startWith($string, $start): bool
   {
-    $len=Str::length($start);
+    $len = Str::length($start);
     return Str::substr($string, 0, $len) == $start;
+  }
+
+
+  public static function isLink($string): bool
+  {
+    return preg_match('/\b((http|https|ftp):\/\/[a-z0-9-]+(\.[a-z0-9-]+)+([\/?].*)?)\b/i', $string) === 1;
   }
 
   public static function isEmail($str): bool
@@ -78,12 +84,12 @@ class XStringHelper
   public static function isWebsite($string)
   {
     return true;
-    return preg_match("/((http(s|))://|www\.|).+\..+/"," ".$string);
+    return preg_match("/((http(s|))://|www\.|).+\..+/", " " . $string);
   }
 
   public static function isValidString($string)
   {
-    return preg_match("/[a-zالف-ی]/",$string);
+    return preg_match("/[a-zالف-ی]/", $string);
   }
 
 

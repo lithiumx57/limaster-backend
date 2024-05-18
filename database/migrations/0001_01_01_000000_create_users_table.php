@@ -17,6 +17,8 @@ return new class extends Migration {
       $table->string('email')->unique();
       $table->timestamp('email_verified_at')->nullable();
       $table->string('password');
+      $table->text('data');
+      $table->string('slug');
       $table->longText('meet_data')->nullable();
       $table->boolean("is_admin")->default(false);
       $table->rememberToken();

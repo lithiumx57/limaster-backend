@@ -5,7 +5,9 @@ use App\Http\Controllers\Api\V1\BlogController;
 use App\Http\Controllers\Api\V1\CommentsController;
 use App\Http\Controllers\Api\V1\Developers\IpInfoController;
 use App\Http\Controllers\Api\V1\ForumController;
+use App\Http\Controllers\Api\V1\ProfileController;
 use App\Http\Controllers\Api\V1\ProjectsController;
+use App\Http\Controllers\Api\V1\QuotationsController;
 use App\Http\Controllers\Api\V1\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -14,10 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(["prefix" => "v1"], function () {
   Route::any("/forum/{method}",[ForumController::class,"index"]);
+  Route::any("/quotations/{method}",[QuotationsController::class,"index"]);
   Route::any("/blog/{method}",[BlogController::class,"index"]);
+  Route::any("/profile/{method}",[ProfileController::class,"index"]);
+  Route::any("/user/{method}",[UsersController::class,"index"]);
   Route::any("/comment/{method}",[CommentsController::class,"index"]);
   Route::any("/project/{type}",[ProjectsController::class,'index'])->middleware("check-auth");
-  Route::any("/user/{type}",[UsersController::class,'index'])->middleware("check-auth");
   Route::any("/ai/{type}",[AiController::class,'index'])->middleware("check-auth");
   Route::any("/ip-info",[IpInfoController::class,'index']);
 });

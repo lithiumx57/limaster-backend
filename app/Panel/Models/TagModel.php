@@ -5,6 +5,7 @@ namespace App\Panel\Models;
 use App\Panel\Dynamic\LiModel;
 use App\Panel\helpers\XModelHelper;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Schema;
 
 /**
@@ -21,5 +22,10 @@ class TagModel extends Model
   use XModelHelper;
 
   protected $guarded = [];
+
+  public function tag():BelongsTo
+  {
+    return $this->belongsTo(Tag::class);
+  }
 
 }

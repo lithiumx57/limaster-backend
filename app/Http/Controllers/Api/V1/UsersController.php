@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Infrastructure\ModelCast\UserCast;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class UsersController extends Controller
@@ -20,8 +20,13 @@ class UsersController extends Controller
   }
 
 
-  public function getToken():array
+  /**
+   * @throws Exception
+   */
+  public function getToken(): array
   {
+    if (!auth()->check()) throw new Exception("کاربر یافت نشد");
+
     $user = auth()->user();
     $token = $user->token;
     if ($token === null) {
@@ -30,4 +35,10 @@ class UsersController extends Controller
     }
     return ["token" => $token];
   }
+
+  public function show()
+  {
+    return UserCast::castPage();
+  }
+
 }

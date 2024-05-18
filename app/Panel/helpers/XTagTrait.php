@@ -2,6 +2,7 @@
 
 namespace App\Panel\helpers;
 
+use App\Models\Quotation;
 use App\Panel\Models\Tag;
 use App\Panel\Models\TagModel;
 use Illuminate\Support\Collection;
@@ -14,7 +15,7 @@ trait XTagTrait
   }
 
 
-  public function updateModel(array|null $tags,string $tagName): void
+  public function updateModelTags(array|null $tags, string|null $tagName = null): void
   {
     $model = get_class($this);
 
@@ -51,14 +52,24 @@ trait XTagTrait
 
   public function getTagCount($tagName): int
   {
-    return TagModel::where("tag_name", $tagName)->where("model",get_class($this))->where("model_id",$this->id)->count();
+    return TagModel::where("tag_name", $tagName)->where("model", get_class($this))->where("model_id", $this->id)->count();
   }
 
 
+  public function deleteTags():void
+  {
+    $model = get_class($this);
+    $id = $this->id;
+    $result = TagModel::where("model", $model)->where("model_id", $id)->get();
+
+    foreach ($result as $row) {
+      $tag = $row->tag->models()->where("model_id", "!=", $id)->count();
+      if ($tag == 0) $row->tag()->delete();
+      $row->delete();
+    }
 
 
-
-
+  }
 
 
 }

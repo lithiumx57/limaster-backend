@@ -130,8 +130,27 @@ class XImageUploader
   }
 
 
+  public function isBase64Image($base64String):bool
+  {
+    if (str_contains($base64String, ',')) {
+      $base64String = explode(',', $base64String)[1];
+    }
+    $binaryData = base64_decode($base64String);
+
+    $imageInfo = getimagesizefromstring($binaryData);
+    if ($imageInfo !== false) return true;
+    return false;
+  }
+
+  /**
+   * @throws \Exception
+   */
   public function uploadFromBase64($dirPath, $base64Image, $sizes): array
   {
+    if (!$this->isBase64Image($base64Image)) {
+      throw new \Exception("فایل آپلود شده تصویر نمی باشد");
+    }
+
     $filePath = XFileHelper::uploadBase64($dirPath, $base64Image);
     $path = public_path($filePath);
 

@@ -14,6 +14,20 @@ class Validation
     return new Validation();
   }
 
+  /**
+   * @throws Exception
+   */
+  public function validateLink($string = null, $name = null, $required = true):void
+  {
+    if (($string == null || !is_string($string) || $string == "" || Str::length(trim($string)) < 1)) {
+      if ($required) throw new Exception("وارد کردن " . $name . " الزامی است");
+      else return;
+    }
+
+    if (Str::length($string) < 6) throw new Exception($name . " نباید کمتر از  " . 6 . " کاراکتر باشد ");
+    if (Str::length($string) > 600) throw new Exception($name . " نباید بیشتر از  " . 600 . " کاراکتر باشد ");
+    if (!XStringHelper::isLink($string)) throw new Exception("لینک " . $name . " اشتباه وارد شده است ");
+  }
 
   /**
    * @throws Exception

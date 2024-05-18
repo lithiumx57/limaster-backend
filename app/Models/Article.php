@@ -41,7 +41,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Article extends LiModel implements LikableInterface, CommentableInterface, SearchableInterface
 {
-  use  SoftDeletes,XTagTrait;
+  use  SoftDeletes, XTagTrait;
 
 
   protected ?string $title = "مقاله";
@@ -95,7 +95,7 @@ class Article extends LiModel implements LikableInterface, CommentableInterface,
   {
     $tags = Tag::extractFromText($this->description);
     $tags = array_merge($tags, Tag::extractFromField($this->tags));
-    $this->updateModel($tags,"tags");
+    $this->updateModelTags($tags, "tags");
   }
 
 

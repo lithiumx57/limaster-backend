@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\UserDataTrait;
 use App\Models\ProjectManagement\Project;
 use App\Panel\Models\Role;
 use App\Panel\Models\XUser;
@@ -16,6 +17,7 @@ use Illuminate\Support\Collection;
  * @property $name
  * @property $token
  * @property $email
+ * @property $data
  * @property Collection<Role> $roles
  * @property $password
  * @property $created_at
@@ -23,32 +25,19 @@ use Illuminate\Support\Collection;
  */
 class User extends XUser
 {
-  use HasFactory, Notifiable;
+  use HasFactory, Notifiable, UserDataTrait;
 
   public static array $customPermissions = [
     'can-change-user-permission' => "تغییر سطح دسترسی کاربر"
   ];
 
 
-  protected $fillable = [
-    'name',
-    'username',
-    'phone',
-    'email',
-    'password',
-  ];
-
-
-  protected $hidden = [
-    'password',
-    'remember_token',
-  ];
-
   protected function casts(): array
   {
     return [
       'email_verified_at' => 'datetime',
       'password' => 'hashed',
+      "data" => "array"
     ];
   }
 
@@ -70,7 +59,7 @@ class User extends XUser
 
   public static function getUsernameField(): string
   {
-    return "username";
+    return "email";
   }
 
   public function roles(): BelongsToMany
@@ -78,22 +67,23 @@ class User extends XUser
     return $this->belongsToMany(Role::class);
   }
 
-  public function getAvatar():string
+  public function getAvatar(): string
   {
-    return getDefaultAvatar();
+    return  $this->getData("profile,avatar,200", getDefaultAvatar());
   }
 
 
-  public function isAdmin():bool
+  public function isAdmin(): bool
   {
-    return true;
+    return $this->is_admin;
   }
 
 
-  public function projects():HasMany
+  public function projects(): HasMany
   {
     return $this->hasMany(Project::class);
   }
+
 
 }
 

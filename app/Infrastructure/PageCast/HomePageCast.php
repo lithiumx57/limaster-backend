@@ -18,8 +18,6 @@ class HomePageCast
 
   public static function cast(): array
   {
-
-
     return CastPublicData::castWith([
       "extra" => [
         "slides" => SlideCast::castAll(),

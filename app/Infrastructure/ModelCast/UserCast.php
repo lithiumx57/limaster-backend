@@ -15,6 +15,7 @@ class UserCast
     }
 
     return [
+      "id" => $user->id,
       "name" => $user->name,
       "bio" => "",
       "avatar" => $user->getAvatar(),

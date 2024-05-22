@@ -17,7 +17,7 @@ class ProjectCreate
   /**
    * @throws Exception
    */
-  public static function create()
+  public static function create():void
   {
     if (!auth()->check()) {
       throw new Exception("برای ثبت پروژه ابتدا وارد حساب کاربری خود شوید");

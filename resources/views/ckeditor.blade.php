@@ -1,11 +1,11 @@
 <style>
 
     #cke_1_top {
-        background: #1C2434 !important;
+        background: transparent !important;
     }
 
     .cke_editable {
-        background: #1C2434 !important;
+        background: transparent !important;
     }
     body{
         margin: 0;

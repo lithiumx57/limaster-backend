@@ -4,6 +4,7 @@
 use App\Helper\Numbers;
 use App\Infrastructure\ApiResponse\Facade\ApiResponseHelper;
 use App\Infrastructure\Validation\Validation;
+use Illuminate\Support\Facades\DB;
 use Kavenegar\KavenegarApi;
 
 function number(): Numbers
@@ -61,4 +62,10 @@ function escapeHtml($data): string
 {
   if ($data == null) return "";
   return preg_replace("/<[^>]*>/", "", $data);
+}
+
+
+function compileDbRaw($expression,$connection): string
+{
+  return $expression->getValue(DB::connection($connection)->getQueryGrammar());
 }

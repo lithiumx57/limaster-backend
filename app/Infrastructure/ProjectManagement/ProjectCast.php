@@ -22,15 +22,19 @@ class ProjectCast
 
     foreach ($users as $user) {
       if ($user->user instanceof User) {
+        $id = $user->user->id;
         $name = $user->user->name;
         $avatar = $user->user->getAvatar();
       } else {
+        continue;
+        $id = 0;
         $name = "-";
         $avatar = null;
       }
       $username = $user->username;
 
       $records[] = [
+        "id" => $id,
         "name" => $name,
         "username" => $username,
         "avatar" => $avatar,
@@ -50,13 +54,12 @@ class ProjectCast
 
   public static function cast(Project $project): array
   {
-
-
     return [
       "id" => $project->uuid,
       "name" => $project->name,
       "image" => $project->getImage(),
       "users" => self::castUsers($project),
+      "createdAt" => getAgoJalali($project->created_at),
     ];
   }
 
@@ -67,7 +70,7 @@ class ProjectCast
     return $records;
   }
 
-  public static function fullCast():array
+  public static function fullCast(): array
   {
     $id = request()->input("id");
     $project = Project::where("uuid", $id)->first();
@@ -78,8 +81,9 @@ class ProjectCast
       "name" => $project->name,
       "image" => $project->getImage(),
       "users" => self::castUsers($project),
-      "manager"=>UserCast::cast($project->user),
-      "createdAt" => convertToJalali($project->created_at,"Y/m/d"),
+      "manager" => UserCast::cast($project->user),
+      "createdAt" => convertToJalali($project->created_at, "Y/m/d"),
+      "boards" => BoardCast::castAll($project->id)
     ];
 
   }

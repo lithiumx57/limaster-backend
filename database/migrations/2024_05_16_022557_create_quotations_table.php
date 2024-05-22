@@ -10,20 +10,20 @@ return new class extends Migration {
    */
   public function up(): void
   {
-    Schema::create('quotations', function (Blueprint $table) {
-      $table->id();
-      $table->text("description");
-      $table->text("plus");
-      $table->text("minus");
-
-      $table->boolean("approved");
-      $table->unsignedBigInteger("user_id");
-      $table->foreign("user_id")->references("id")->on("users")->onDelete("cascade");
-
-      $table->timestamp("publish_at");
-      $table->softDeletes();
-      $table->timestamps();
-    });
+//    Schema::create('quotations', function (Blueprint $table) {
+//      $table->id();
+//      $table->text("description");
+//      $table->text("plus");
+//      $table->text("minus");
+//
+//      $table->boolean("approved");
+//      $table->unsignedBigInteger("user_id");
+//      $table->foreign("user_id")->references("id")->on("users")->onDelete("cascade");
+//
+//      $table->timestamp("publish_at");
+//      $table->softDeletes();
+//      $table->timestamps();
+//    });
   }
 
   /**
@@ -31,6 +31,6 @@ return new class extends Migration {
    */
   public function down(): void
   {
-    Schema::dropIfExists('quotations');
+//    Schema::dropIfExists('quotations');
   }
 };

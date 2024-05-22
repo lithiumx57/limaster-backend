@@ -7,6 +7,7 @@ use App\Panel\helpers\XModelHelper;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property $id
@@ -22,7 +23,7 @@ class Board extends Model
 {
   use XModelHelper;
 
-  protected $table = "pm_boards";
+
 
   protected $guarded = ["id"];
 
@@ -35,6 +36,12 @@ class Board extends Model
   public function project():BelongsTo
   {
     return $this->belongsTo(Project::class);
+  }
+
+
+  public function users():BelongsToMany
+  {
+    return $this->belongsToMany(Board::class,"pm_boards_users","pm_board_id","user_id");
   }
 
 

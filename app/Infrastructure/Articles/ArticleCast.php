@@ -116,5 +116,12 @@ class ArticleCast
     ];
   }
 
+  public static function castForProfile():array
+  {
+    $userId = auth()->user()->id;
+    $articles = Article::where("approved", true)->where("user_id",$userId)->latest()->paginate(12);
+    return self::castWithPaginate($articles);
+  }
+
 
 }

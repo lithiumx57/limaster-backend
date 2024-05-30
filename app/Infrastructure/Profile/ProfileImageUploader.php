@@ -11,15 +11,17 @@ class ProfileImageUploader
   /**
    * @throws Exception
    */
-  public static function uploadBanner(): void
+  public static function uploadBanner(): string|null
   {
     $user = auth()->user();
-    if (!$user) return;
+    if (!$user) return null;
     $banner = request()->input("banner");
     $oldBanner = $user->getData("profile,banner");
     $banner = XImageUploader::getInstance()->uploadFromBase64("user/" . $user->id . "/banner", $banner, [700, 1200]);
     if (is_array($oldBanner)) XFileHelper::deleteFile($oldBanner, "files/uploads/user/" . $user->id . "/banner");
     $user->attachData("profile,banner", $banner);
+
+    return "/files/uploads/user/" . $user->id . "/banner/" . $banner["700"];
   }
 
   /**

@@ -86,4 +86,9 @@ class ProjectsController extends Controller
     return BoardCast::castAll();
   }
 
+  public function getComments()
+  {
+    return BoardCast::commentsCast();
+  }
+
 }

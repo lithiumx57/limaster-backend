@@ -120,7 +120,6 @@
         eventLimit: true, // allow "more" link when too many events
         events: "/calendar/get-events?token={{$user->token}}"
       });
-
     }
 
   </script>

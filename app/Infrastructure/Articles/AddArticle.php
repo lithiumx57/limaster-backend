@@ -40,7 +40,7 @@ class AddArticle
       "title" => $title,
       "description" => $description,
       "images" => $image,
-      "approved" => false,
+      "approved" => auth()->user()->isAdmin(),
       "category_id" => 19,
       "meta" => "-",
       "published_at" => Carbon::now()->format('Y-m-d H:i:s'),

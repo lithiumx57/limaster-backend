@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\CalendarController;
 use App\Http\Controllers\Api\V1\ProfileController;
 use App\Models\ProjectManagement\Project;
 use Illuminate\Database\Schema\Blueprint;
@@ -7,9 +8,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 
+//dd(extension_loaded('pdo_pgsql'));
+
 Route::get('/', function () {
 //  return \App\Infrastructure\Forum\QuestionCast::fullPageCast(3, "عنوان-تستی");
 
+  dd("ads");
+  return [
+    "name"=>"milad"
+  ];
 
   exit;
 
@@ -30,10 +37,11 @@ Route::get("ck-loader", function () {
 
 require __DIR__ . '/auth.php';
 
-Route::get("/calendar", [\App\Http\Controllers\Api\V1\CalendarController::class, "index"]);
-Route::any("/calendar/get-events", [\App\Http\Controllers\Api\V1\CalendarController::class, "getEvents"]);
+Route::get("/calendar", [CalendarController::class, "index"]);
+Route::any("/calendar/get-events", [CalendarController::class, "getEvents"]);
 
 Route::get("/payment/callback",[ProfileController::class,"linkPaymentCallback"]);
+
 
 
 //Route::get("adasda", function () {

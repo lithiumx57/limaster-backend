@@ -66,8 +66,8 @@ return [
       'host' => env('MEET_DB_HOST', '127.0.0.1'),
       'port' => env('MEET_DB_PORT', '5432'),
       'database' => env('MEET_DB_DATABASE', 'meet'),
-      'username' => env('MEET_DB_USERNAME', 'postgres'),
-      'password' => env('MEET_DB_PASSWORD', '1234'),
+      'username' => env('MEET_DB_USERNAME', 'meet'),
+      'password' => env('MEET_DB_PASSWORD', 'ABhRCmz6ykST'),
       'charset' => env('MEET_DB_CHARSET', 'utf8'),
       'prefix' => '',
       'prefix_indexes' => true,
@@ -111,6 +111,10 @@ return [
       'prefix_indexes' => true,
       'search_path' => 'public',
       'sslmode' => 'prefer',
+
+      'options' => extension_loaded('pdo_pgsql') ? array_filter([
+//        PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+      ]) : [],
     ],
 
     'sqlsrv' => [

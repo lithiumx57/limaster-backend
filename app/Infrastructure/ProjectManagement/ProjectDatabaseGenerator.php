@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Schema;
 class ProjectDatabaseGenerator
 {
 
+  public static function hasConnection($projectId):bool
+  {
+    $path = database_path("pm/projects_" . $projectId . ".sqlite");
+    return file_exists($path);
+  }
+
   public static function getConnection($projectId): Connection
   {
     $path = database_path("pm/projects_" . $projectId . ".sqlite");
@@ -96,6 +102,24 @@ class ProjectDatabaseGenerator
         "user_id"
       ]);
     });
+
+
+    Schema::connection($connection)->create('comments', function (Blueprint $table) {
+      $table->id();
+
+      $table->unsignedBigInteger("user_id")->default(0);
+      $table->longText("likes")->default("");
+      $table->longText("dislikes")->default("");
+
+      $table->string("model");
+      $table->unsignedBigInteger("model_id");
+
+      $table->longText("body");
+      $table->unsignedBigInteger("parent");
+
+      $table->timestamps();
+    });
+
 
 
   }

@@ -2,7 +2,9 @@
 
 namespace App\Infrastructure\ModelCast;
 
+use App\Infrastructure\ProjectManagement\ProjectAccessHelper;
 use App\Infrastructure\ProjectManagement\ProjectDatabaseGenerator;
+use App\Models\ProjectManagement\Board;
 use App\Models\ProjectManagement\Project;
 use App\Models\User;
 
@@ -45,7 +47,9 @@ class BoardCast
     foreach ($taskRecords as $record) {
       $user = User::find($record->user_id);
 
+
       $tasks[$record->token] = [
+//        "_id" => $record->id,
         "id" => $record->token,
         "content" => $record->text,
         "user" => [
@@ -54,7 +58,6 @@ class BoardCast
           "avatar" => $user->getAvatar(),
         ],
         "createdAt" => getAgoJalali($record->created_at),
-        "updatedAt" => getAgoJalali($record->updated_at),
       ];
     }
 
@@ -78,10 +81,55 @@ class BoardCast
 
 
     return [
+      "project_id" => $project->id,
+      "board_id" => $id,
       "tasks" => $tasks,
       "columns" => $columns,
       "columnOrder" => $columnOrders,
     ];
+  }
+
+  public static function commentsCast()
+  {
+    $projectId = request()->input("projectId");
+    $taskId = request()->input("taskId");
+    $boardId = request()->input("boardId");
+
+
+    if (!ProjectDatabaseGenerator::hasConnection($projectId)) {
+      return;
+    }
+
+    $connection = ProjectDatabaseGenerator::getConnection($projectId);
+
+    $project = Project::where("id", $projectId)->first();
+    if (!ProjectAccessHelper::hasAccess($project)) return;
+    $board = $connection->table("boards")->where("id", $boardId)->where("project_id", $projectId)->first();
+    if (!ProjectAccessHelper::hasAccessToBoard($board, $connection)) return;
+
+    $task = $connection->table("board_box_lines")->where("board_id", $boardId)->where("token", $taskId)->first();
+
+
+    $commentRecords = [];
+    $comments = $connection->table("comments")->where("model", Board::class)->where("model_id", $task->id)->orderBy("id", "DESC")->get();
+
+
+    foreach ($comments as $comment) {
+      $commentUser = User::find($comment->user_id);
+
+      $commentRecords[] = [
+        "id" => $comment->id,
+        "parent" => $comment->parent,
+        "name" => $commentUser->name,
+        "contact" => $commentUser->email,
+        "avatar" => $commentUser->getAvatar(),
+        "body" => $comment->body,
+        "createdAt" => getAgoJalali($comment->created_at),
+//      "children" => self::castCollection($comment->children),
+      ];
+    }
+
+    return $commentRecords;
   }
 
 

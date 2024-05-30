@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+
+//use App\Helpers\DashboardConfigurator;
 use App\Helpers\DashboardConfigurator;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -16,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
   public function register(): void
   {
     \App\Panel\XDashboard::initialize(new DashboardConfigurator());
+
 
   }
 

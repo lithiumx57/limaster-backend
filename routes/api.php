@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\AboutUsController;
 use App\Http\Controllers\Api\V1\AiController;
+use App\Http\Controllers\Api\V1\AuthorsController;
 use App\Http\Controllers\Api\V1\BlogController;
 use App\Http\Controllers\Api\V1\CommentsController;
 use App\Http\Controllers\Api\V1\Developers\IpInfoController;
@@ -23,6 +24,7 @@ Route::group(["prefix" => "v1"], function () {
   Route::any("/profile/{method}", [ProfileController::class, "index"])->middleware("check-auth");
   Route::any("/user/{method}", [UsersController::class, "index"]);
   Route::any("/comment/{method}", [CommentsController::class, "index"]);
+  Route::any("/author/{method}", [AuthorsController::class, "index"]);
   Route::any("/payment/{method}", [PaymentsController::class, "index"]);
   Route::any("/about/{method}", [AboutUsController::class, "index"]);
   Route::any("/favorites/{method}", [FavoritesController::class, "index"]);

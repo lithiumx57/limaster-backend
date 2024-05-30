@@ -12,7 +12,7 @@ class CommentCreate
   /**
    * @throws Exception
    */
-  public static function create():bool
+  public static function create(): bool
   {
     $name = request()->input("name");
     $contact = request()->input("contact");
@@ -33,12 +33,17 @@ class CommentCreate
 
     $model = @Comment::MODELS[$model];
     if (!$model) throw new Exception("خطای نامشخص رخ داد است");
-    if (!is_numeric($modelId)) throw new Exception("خطای نامشخص رخ داده است");
+//    if (!is_numeric($modelId)) throw new Exception("خطای نامشخص رخ داده است");
+
+
+    if (hasIndex(Comment::CUSTOM_MODELS, $model)) {
+      return $model::createComment($model, $modelId, $parent, $description, $name, $contact);
+    }
 
     $object = $model::find($modelId);
     if (!($object instanceof $model)) throw new Exception("خطای نامشخص رخ داده است");
-
     if (!$object->canPostComment()) throw new Exception("خطای نامشخص رخ داده است");
+
 
     if (!is_numeric($parent)) $parent = 0;
 
@@ -52,7 +57,7 @@ class CommentCreate
     if (auth()->check()) $userId = auth()->user()->id;
     else $userId = 0;
 
-     Comment::create([
+    Comment::create([
       "name" => $name,
       "contact" => $contact,
       "body" => $description,
@@ -65,7 +70,7 @@ class CommentCreate
 //      "dislikes" => [],
     ]);
 
-     return $object->defaultApproved();
+    return $object->defaultApproved();
 
   }
 }

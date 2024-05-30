@@ -69,3 +69,11 @@ function compileDbRaw($expression,$connection): string
 {
   return $expression->getValue(DB::connection($connection)->getQueryGrammar());
 }
+
+
+
+function hasIndex($array, $index): bool
+{
+  foreach ($array as $item) if ($item == $index) return true;
+  return false;
+}

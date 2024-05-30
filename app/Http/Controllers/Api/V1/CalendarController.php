@@ -4,10 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Infrastructure\Calendar\TaskGetter;
-use App\Models\Calendar\TaskLine;
 use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class CalendarController extends Controller
 {
@@ -30,6 +27,7 @@ class CalendarController extends Controller
 
   public function getEvents()
   {
+
     $token = request()->input("token");
     if (!$token) abort(404);
 

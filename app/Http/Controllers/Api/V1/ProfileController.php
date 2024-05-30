@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Infrastructure\Articles\ArticleCast;
 use App\Infrastructure\Profile\PaymentLinkCreator;
 use App\Infrastructure\Profile\ProfileImageUploader;
 use App\Infrastructure\Profile\UpdatePassword;
@@ -25,7 +26,9 @@ class ProfileController extends Controller
 
   public function updateBanner()
   {
-    ProfileImageUploader::uploadBanner();
+    return [
+      "path" => ProfileImageUploader::uploadBanner()
+    ];
   }
 
 
@@ -33,7 +36,6 @@ class ProfileController extends Controller
   {
     ProfileImageUploader::uploadAvatar();
   }
-
 
 
   public function updateDashboard()
@@ -57,7 +59,15 @@ class ProfileController extends Controller
     return PaymentLinkCreator::callback();
   }
 
+  public function notifications()
+  {
+    return PaymentLinkCreator::callback();
+  }
 
+  public function getArticles()
+  {
+    return ArticleCast::castForProfile();
+  }
 
 
 }

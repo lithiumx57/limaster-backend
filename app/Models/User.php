@@ -69,7 +69,9 @@ class User extends XUser
 
   public function getAvatar(): string
   {
-    return  $this->getData("profile,avatar,200", getDefaultAvatar());
+    $result = $this->getData("profile,avatar,200");
+    if (!$result) return getDefaultAvatar();
+    return "/files/uploads/user/" . $this->id . "/avatar/" . $result;
   }
 
 

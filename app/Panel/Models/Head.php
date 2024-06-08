@@ -120,49 +120,5 @@ class Head extends LiModel
   }
 
 
-  public static function release($page, $type = "article", $twitter = "@lithium_xlvii")
-  {
-    $lang = "fa";
-    $titleKey = $page . "_title_" . $lang;
-    $descriptionKey = $page . "_description_" . $lang;
-
-
-    try {
-      $result = cache()->get("seotools.$page");
-      if ($result) {
-        $title = $result['title'];
-        $description = $result['description'];
-      } else {
-        $title = self::getRow($titleKey)->value;
-        $description = self::getRow($descriptionKey)->value;
-        cache()->put("seotools.$page", [
-          'title' => $title,
-          'description' => $description
-        ], Carbon::now()->addMonths(6));
-      }
-    } catch (\Exception $e) {
-    }
-
-
-    $url = request()->url();
-    SEOTools::setTitle($title);
-    SEOTools::setDescription($description);
-    SEOTools::opengraph()->setUrl(urldecode($url));
-    SEOTools::setCanonical(urldecode($url));
-    SEOTools::opengraph()->addProperty('type', $type);
-    SEOTools::twitter()->setSite($twitter);
-  }
-
-  public static function releaseCustom($title, $description = null, $type = "article", $twitter = "@lithium_xlvii")
-  {
-    if ($description == null) $description = $title;
-    $url = request()->url();
-    SEOTools::setTitle($title);
-    SEOTools::setDescription($description);
-    SEOTools::opengraph()->setUrl(urldecode($url));
-    SEOTools::setCanonical(urldecode($url));
-    SEOTools::opengraph()->addProperty('type', $type);
-    SEOTools::twitter()->setSite($twitter);
-  }
 
 }

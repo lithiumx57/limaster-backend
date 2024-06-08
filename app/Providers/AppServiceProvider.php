@@ -17,7 +17,6 @@ class AppServiceProvider extends ServiceProvider
    */
   public function register(): void
   {
-    \App\Panel\XDashboard::initialize(new DashboardConfigurator());
 
 
   }
@@ -34,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
     VerifyCsrfToken::except([
       "/ckUploader",
       'livewire/*',
+      "/v1/oauth2/google"
     ]);
 
     Paginator::useBootstrap();

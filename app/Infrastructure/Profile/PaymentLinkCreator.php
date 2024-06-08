@@ -41,6 +41,27 @@ class PaymentLinkCreator
 
   }
 
+  public static function generateToken($description,$amount,$callback)
+  {
+    $client = new SoapClient('https://www.zarinpal.com/pg/services/WebGate/wsdl', ['encoding' => 'UTF-8']);
+
+    $soap = $client->PaymentRequest([
+      'MerchantID' => self::getMerchantCode(),
+      'Amount' => $amount,
+      'Description' => $description,
+      'CallbackURL' => $callback,
+    ]);
+
+    $status = $soap->Status;
+    $isValid = $status == 100 || $status == 101;
+    if ($isValid){
+      return $soap->Authority;
+    }
+
+    throw new Exception("خطا در پرداخت");
+
+  }
+
   public static function start()
   {
     $token = request()->input("token");
@@ -99,6 +120,21 @@ class PaymentLinkCreator
   {
     $link = $transaction ? $transaction->link : "nf";
     return redirect(env("FRONTEND_URL") . "/payment/callback/" . $link);
+  }
+
+
+  public static function validate($amount,$token)
+  {
+    $client = new SoapClient('https://www.zarinpal.com/pg/services/WebGate/wsdl', ['encoding' => 'UTF-8']);
+    $token = $client->PaymentVerification([
+      'MerchantID' => self::getMerchantCode(),
+      'Amount' => $amount,
+      'Authority' => $token,
+    ]);
+
+    $status = $token->Status;
+    $refId = $token->RefID;
+    return  $status == 100 || $status == 101;
   }
 
 

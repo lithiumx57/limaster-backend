@@ -9,7 +9,6 @@ use App\Infrastructure\Forum\QuestionCast;
 use App\Models\Forum;
 use App\Models\ForumLine;
 use Exception;
-use Illuminate\Http\Request;
 
 class ForumController extends Controller
 {

@@ -15,7 +15,7 @@ return new class extends Migration {
       $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
       $table->unsignedInteger('amount');
       $table->boolean("used")->default(false);
-      $table->string("token");
+      $table->string("token")->nullable();
       $table->string("status");
       $table->timestamps();
     });

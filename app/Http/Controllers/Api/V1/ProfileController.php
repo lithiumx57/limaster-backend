@@ -8,6 +8,7 @@ use App\Infrastructure\Profile\PaymentLinkCreator;
 use App\Infrastructure\Profile\ProfileImageUploader;
 use App\Infrastructure\Profile\UpdatePassword;
 use App\Infrastructure\Profile\UpdatePersonalInfo;
+use App\Infrastructure\Profile\WalletPage;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -67,6 +68,11 @@ class ProfileController extends Controller
   public function getArticles()
   {
     return ArticleCast::castForProfile();
+  }
+
+  public function wallet()
+  {
+    return WalletPage::cast();
   }
 
 

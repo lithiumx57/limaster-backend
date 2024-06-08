@@ -17,6 +17,7 @@ use Illuminate\Support\Collection;
  * @property $name
  * @property $token
  * @property $email
+ * @property $wallet
  * @property $data
  * @property Collection<Role> $roles
  * @property $password
@@ -30,6 +31,15 @@ class User extends XUser
   public static array $customPermissions = [
     'can-change-user-permission' => "تغییر سطح دسترسی کاربر"
   ];
+
+  public function walletCharge(WalletLog $walletLog):void
+  {
+    $wallet = $this->wallet;
+    if (!is_numeric($wallet)) $wallet = 0;
+    $wallet += $walletLog->amount;
+    $this->update(["wallet" => $wallet]);
+    $walletLog->update(["status" => WalletLog::STATUS_PAID, "used" => true]);
+  }
 
 
   protected function casts(): array

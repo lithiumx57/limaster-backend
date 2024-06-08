@@ -1,7 +1,7 @@
 <?php
 
 
-use App\Helper\Numbers;
+use App\Helpers\Numbers;
 use App\Infrastructure\ApiResponse\Facade\ApiResponseHelper;
 use App\Infrastructure\Validation\Validation;
 use Illuminate\Support\Facades\DB;

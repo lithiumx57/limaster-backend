@@ -49,10 +49,11 @@ class IpInfoController extends Controller
   private static function getFromServer2($ip)
   {
     try {
+
       $result = file_get_contents("https://api.ipbase.com/v1/json?ip=" . $ip);
       $result = json_decode($result, true);
       return [
-        "x-ip" => request()->ip(),
+        "x-ip" => self::getRequestIp(),
         "x-isp" => "unknown",
         "x-timezone" => $result["time_zone"],
         "x-country" => $result["country_name"],
@@ -95,19 +96,28 @@ class IpInfoController extends Controller
     } catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
 
     }
+
   }
+
+  public static function getRequestIp()
+  {
+    return request()->header('X-Real-IP');
+  }
+
 
   public function index()
   {
     try {
 
       $ip = request()->input("target");
-      if (!$ip) request()->ip();
+      if (!$ip) $ip= self::getRequestIp();
       $type = request()->input("type");
 
       $ip = str_replace("https://", "", $ip);
       $ip = str_replace("http://", "", $ip);
       $ip = gethostbyname($ip);
+
+      cache()->clear();
 
 
       $result = self::get($ip);

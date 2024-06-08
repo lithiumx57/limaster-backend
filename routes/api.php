@@ -8,11 +8,13 @@ use App\Http\Controllers\Api\V1\CommentsController;
 use App\Http\Controllers\Api\V1\Developers\IpInfoController;
 use App\Http\Controllers\Api\V1\FavoritesController;
 use App\Http\Controllers\Api\V1\ForumController;
+use App\Http\Controllers\Api\V1\HeadsController;
 use App\Http\Controllers\Api\V1\PaymentsController;
 use App\Http\Controllers\Api\V1\ProfileController;
 use App\Http\Controllers\Api\V1\ProjectsController;
 use App\Http\Controllers\Api\V1\QuotationsController;
 use App\Http\Controllers\Api\V1\UsersController;
+use App\Http\Controllers\Api\V1\WalletController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,12 +27,14 @@ Route::group(["prefix" => "v1"], function () {
   Route::any("/user/{method}", [UsersController::class, "index"]);
   Route::any("/comment/{method}", [CommentsController::class, "index"]);
   Route::any("/author/{method}", [AuthorsController::class, "index"]);
+  Route::any("/wallet/{method}", [WalletController::class, "index"]);
   Route::any("/payment/{method}", [PaymentsController::class, "index"]);
   Route::any("/about/{method}", [AboutUsController::class, "index"]);
   Route::any("/favorites/{method}", [FavoritesController::class, "index"]);
   Route::any("/project/{type}", [ProjectsController::class, 'index'])->middleware("check-auth");
   Route::any("/ai/{type}", [AiController::class, 'index'])->middleware("check-auth");
   Route::any("/ip-info", [IpInfoController::class, 'index']);
+  Route::get("/heads/{page}",[HeadsController::class, "index"]);
 });
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {

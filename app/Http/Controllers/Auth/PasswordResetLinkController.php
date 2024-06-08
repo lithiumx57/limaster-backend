@@ -10,32 +10,26 @@ use Illuminate\Validation\ValidationException;
 
 class PasswordResetLinkController extends Controller
 {
-  /**
-   * Handle an incoming password reset link request.
-   *
-   * @throws \Illuminate\Validation\ValidationException
-   */
+
   public function store(Request $request): JsonResponse
   {
 
+    $request->validate(['email' => ['required', 'email'],]);
+    $status = Password::sendResetLink($request->only('email'));
 
-    $request->validate([
-      'email' => ['required', 'email'],
+
+    if ($status==Password::RESET_THROTTLED) $message = "ایمیل بازیابی قبلا برای شما ارسال شده است";
+    else $message = __($status);
+
+    if ($status != Password::RESET_LINK_SENT) return response()->json([
+      "message" => $message,
+      "success" => $status == Password::RESET_LINK_SENT
     ]);
 
-    // We will send the password reset link to this user. Once we have attempted
-    // to send the link, we will examine the response then see the message we
-    // need to show to the user. Finally, we'll send out a proper response.
-    $status = Password::sendResetLink(
-      $request->only('email')
-    );
+    return response()->json([
+      "message" => "لینک بازیابی با موفقیت به ایمیل شما ارسال گردید",
+      "success" => $status == Password::RESET_LINK_SENT
+    ]);
 
-    if ($status != Password::RESET_LINK_SENT) {
-      throw ValidationException::withMessages([
-        'email' => [__($status)],
-      ]);
-    }
-
-    return response()->json(['status' => __($status)]);
   }
 }

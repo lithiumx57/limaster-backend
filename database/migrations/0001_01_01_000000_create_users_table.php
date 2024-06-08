@@ -19,6 +19,7 @@ return new class extends Migration {
       $table->string('password');
       $table->text('data');
       $table->string('slug');
+      $table->unsignedInteger("wallet")->default(0)->nullable();
       $table->longText('meet_data')->nullable();
       $table->boolean("is_admin")->default(false);
       $table->rememberToken();

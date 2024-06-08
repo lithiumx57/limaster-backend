@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Helper;
+namespace App\Helpers;
+
 
 
 class Numbers
@@ -9,6 +10,7 @@ class Numbers
   {
     return new Numbers();
   }
+
 
   public function round($price): int
   {

@@ -41,7 +41,7 @@ class DefaultConfigurator implements IConfigurator
   public function getLanguages(): array
   {
     return [
-//      "fa" => "فارسی"
+      "fa" => "فارسی"
     ];
   }
 
@@ -97,7 +97,6 @@ class DefaultConfigurator implements IConfigurator
 
   public function getSwitchableTexts(): array
   {
-
     return [
       'switchable' => [xTranslate("فعال"), xTranslate("غیر فعال")]
     ];
@@ -105,6 +104,7 @@ class DefaultConfigurator implements IConfigurator
 
   public function getPages(): array
   {
+    dd("asd");
     return [
       "home" => 'صفحه اصلی',
     ];

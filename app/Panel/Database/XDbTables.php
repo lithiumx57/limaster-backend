@@ -32,7 +32,7 @@ class XDbTables
       $table->string('title');
       $table->string('name');
       $table->string('flag');
-      $table->string('type');
+      $table->string('type')->nullable();
       $table->boolean('approved')->nullable()->default(false);
       $table->boolean('is_default')->nullable()->default(false);
       $table->enum('direction', ['rtl', 'ltr']);
